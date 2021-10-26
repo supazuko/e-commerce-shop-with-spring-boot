@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,5 +67,14 @@ class ProductRepositoryTest {
         assertThat(productRepositoryImpl.findById(2L).orElse(null)).isNotNull();
         productRepositoryImpl.deleteById(2L);
         assertThat(productRepositoryImpl.findById(2L).orElse(null)).isNull();
+    }
+
+    @Test
+    public void updateProduct(){
+        Optional<Product> productOptional = productRepositoryImpl.findById(1L);
+        if(productOptional.isPresent()){
+            Product product = productOptional.get();
+            product.setName("Fancy dining set");
+        }
     }
 }
