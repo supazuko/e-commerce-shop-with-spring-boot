@@ -47,13 +47,10 @@ public class ProductController {
         Product product = null;
         try{
             product = productServiceImpl.update(id, productDto);
-        }catch(NullPointerException nullPointerException){
-            log.info("Exception message -> "+ nullPointerException.getLocalizedMessage());
-            return ResponseEntity.badRequest().body(nullPointerException.getLocalizedMessage());
-        }
-        catch(ProductDoesNotExistException ex){
+        }catch(NullPointerException | ProductDoesNotExistException ex){
+            log.info("Exception cause -> "+ ex.getCause());
             log.info("Exception message -> "+ ex.getLocalizedMessage());
-            return ResponseEntity.badRequest().body(ex.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
         return ResponseEntity.ok().body(product);
     }
